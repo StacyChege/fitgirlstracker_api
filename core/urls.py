@@ -1,6 +1,8 @@
+# core/urls.py
+
 from django.urls import path
-from .views import hello_api
+from . import views
 
 urlpatterns = [
-    path('hello/', hello_api, name='hello_api'),
+    path('', views.home_view, name='home'),
 ]
