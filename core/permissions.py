@@ -1,4 +1,5 @@
 from rest_framework import permissions
+from .models import ExpertProfile
 
 class IsExpert(permissions.BasePermission):
     """
@@ -6,12 +7,17 @@ class IsExpert(permissions.BasePermission):
     A user is considered an expert if their ExpertProfile is verified.
     """
     def has_permission(self, request, view):
-        # Check if the user is authenticated and has a verified ExpertProfile
-        if request.method in permissions.SAFE_METHODS:
-            return request.user.is_authenticated
+        # A user must be authenticated to check for an expert profile
+        if not request.user.is_authenticated:
+            # Allow read-only access (GET, HEAD, OPTIONS) for anonymous users
+            return request.method in permissions.SAFE_METHODS
 
-        #  Write access (e.g., POST) is only for experts
-        return request.user.expertprofile.verified
+        # For write access (POST, PUT, DELETE), the user must be a verified expert.
+        try:
+            return request.user.expertprofile.verified
+        except ExpertProfile.DoesNotExist:
+            # If the user doesn't have an expert profile, they can't be an expert
+            return False
     
 class IsOwnerOrAdmin(permissions.BasePermission):
     """
