@@ -1,0 +1,1 @@
+web: gunicorn fitgirlstracker.wsgi --log-file -

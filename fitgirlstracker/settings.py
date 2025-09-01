@@ -14,6 +14,21 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # =========================================================================
 # PRODUCTION SETTINGS
+# This line checks if the DATABASE_URL environment variable is set.
+
+if os.environ.get('DATABASE_URL'):
+    # In a production environment (like Heroku), use the DATABASE_URL.
+    DATABASES = {
+        'default': dj_database_url.config(conn_max_age=600)
+    }
+else:
+    # In a local development environment, use the local SQLite database.
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
 #
 # These settings will be configured using environment variables.
 # =========================================================================
@@ -26,9 +41,9 @@ if not SECRET_KEY:
     SECRET_KEY = 'your-local-secret-key'
 
 
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
+ALLOWED_HOSTS = ['fitgirlstracker.herokuapp.com']
 
 
 # =========================================================================
