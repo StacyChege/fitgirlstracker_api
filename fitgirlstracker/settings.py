@@ -43,7 +43,7 @@ if not SECRET_KEY:
 
 DEBUG = False
 
-ALLOWED_HOSTS = ['fitgirlstracker.herokuapp.com']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'fitgirlstracker-stacy-3861fcc5fdbd.herokuapp.com']
 
 
 # =========================================================================
