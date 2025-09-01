@@ -11,7 +11,7 @@ class ExpertProfile(models.Model):
     verified = models.BooleanField(default=False)
 
     def __str__(self):
-        return f"Expert: {self.user.username} ({'Verified' if self.is_verified else 'Unverified'})"
+        return f"Expert: {self.user.username} ({'Verified' if self.verified else 'Unverified'})"
     
 
 # Workout Choices part

@@ -18,6 +18,22 @@ class IsExpert(permissions.BasePermission):
         except ExpertProfile.DoesNotExist:
             # If the user doesn't have an expert profile, they can't be an expert
             return False
+        
+# core/permissions.py
+
+from rest_framework import permissions
+
+class IsExpertUser(permissions.BasePermission):
+    """
+    Custom permission to allow only staff users to create workout posts.
+    """
+    def has_permission(self, request, view):
+        # A GET request (listing workouts) is always allowed.
+        if request.method in permissions.SAFE_METHODS:
+            return True
+
+        # Only staff members (is_staff=True) can post new workouts.
+        return request.user.is_authenticated and request.user.is_staff
     
 class IsOwnerOrAdmin(permissions.BasePermission):
     """

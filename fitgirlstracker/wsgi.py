@@ -1,18 +1,21 @@
+# This file contains the WSGI configuration to serve up your Django project.
+
 import os
 import sys
 
-# Add your project directory to the sys.path
-path = 'https://www.pythonanywhere.com/user/StacyChege1/files/home/StacyChege1/fitgirlstracker_api'
+# Add your project's directory to the sys.path
+# This is the directory that contains your 'manage.py' file.
+path = '/home/StacyChege1/fitgirlstracker_api'
 if path not in sys.path:
-    sys.path.insert(0, path)
+    sys.path.append(path)
 
-# Set up the Django project environment
-os.environ['DJANGO_SETTINGS_MODULE'] = 'fitgirlstracker_api.settings'
+# Now, import the dotenv library and load the .env file from the project directory
+from dotenv import load_dotenv
+load_dotenv(os.path.join(path, '.env'))
 
-# Activate your virtual environment
-activate_this = '/home/StacyChege1/fitgirlstracker_api/venv/bin/activate_this.py'
-with open(activate_this) as f:
-    exec(f.read(), dict(__file__=activate_this))
+# Set the DJANGO_SETTINGS_MODULE to your project's settings file
+os.environ['DJANGO_SETTINGS_MODULE'] = 'fitgirlstracker.settings'
 
+# Load the WSGI application
 from django.core.wsgi import get_wsgi_application
 application = get_wsgi_application()

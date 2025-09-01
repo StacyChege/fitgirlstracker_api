@@ -14,7 +14,7 @@ from .serializers import (
     CommentSerializer
 )
 
-from .permissions import IsExpert, IsOwnerOrAdmin
+from .permissions import IsExpert, IsOwnerOrAdmin, IsExpertUser
 
 # User and Authentication Views
 # For handling user registration and managing their profiles
@@ -55,11 +55,14 @@ class ExpertProfileViewSet(viewsets.ModelViewSet):
 class WorkoutPlanViewSet(viewsets.ModelViewSet):
     queryset = WorkoutPlan.objects.all()
     serializer_class = WorkoutPlanSerializer
+
+    def perform_create(self, serializer):
+        """
+        Save the authenticated user as the one who posted the workout.
+        """
+        serializer.save(posted_by=self.request.user)
     
     def get_permissions(self):
-        """
-        Instantiates and returns the list of permissions that this view requires.
-        """
         # Allow any authenticated user to list and retrieve (view) workout plans
         if self.action in ['list', 'retrieve', 'like', 'comments']:
             permission_classes = [IsAuthenticated]

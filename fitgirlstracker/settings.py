@@ -21,13 +21,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # The SECRET_KEY is crucial for security and must be kept secret.
 # In production, it will be read from an environment variable.
 SECRET_KEY = os.environ.get('SECRET_KEY')
+# If SECRET_KEY is not found in environment variables, fall back to a default (for local dev only).
+if not SECRET_KEY:
+    SECRET_KEY = 'your-local-secret-key'
 
-# DEBUG must be False in production to prevent sensitive information from being exposed.
-DEBUG = (os.environ.get('DEBUG') == 'True')
 
-# This is your PythonAnywhere domain name.
-# Replace 'your-username' with your actual PythonAnywhere username.
-ALLOWED_HOSTS = ['StacyChege1.pythonanywhere.com']
+DEBUG = True
+
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 
 
 # =========================================================================
